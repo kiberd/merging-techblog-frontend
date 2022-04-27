@@ -99,7 +99,6 @@ export default function Home() {
         </div>
 
       </header>
-
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <nav class="bg-white flex items-center justify-between">
           <div class="py-3 px-6 sm:px-12 lg:px-0">
