@@ -7,7 +7,10 @@ import RectanglePostList from '../components/RectanglePostList'
 import { listState } from '../atoms/style';
 import { useRecoilState } from 'recoil';
 
-export default function Home() {
+import { getPost } from '../api/posts';
+
+
+export default function Home(props) {
 
   const [isList, setIsList] = useRecoilState(listState);
   
@@ -19,7 +22,7 @@ export default function Home() {
         <div class="max-w-25xl mx-auto py-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
           <div class="px-4 py-2 sm:px-0 bg-white dark:bg-black">
             <div class="h-100">
-              {isList ? <RectanglePostList /> : <SquarePostList />}
+              {isList ? <RectanglePostList data={props.data}/> : <SquarePostList data={props.data}/>}
             </div>
           </div>
         </div>
@@ -29,3 +32,13 @@ export default function Home() {
 
   )
 }
+
+export const getStaticProps = async () => {
+  
+  const data = await getPost(10);
+
+  return {
+    props: { data }
+  }
+};
+
