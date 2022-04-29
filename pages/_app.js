@@ -1,12 +1,16 @@
 import '../styles/globals.css'
+import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'next-themes'
 
 function MyApp({ Component, pageProps }) {
 
   return (
-    <ThemeProvider attribute="class">
-      <Component {...pageProps} />
-    </ThemeProvider>)
+    <RecoilRoot>
+      <ThemeProvider attribute="class">
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </RecoilRoot>)
+
 
 }
 
