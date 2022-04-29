@@ -2,17 +2,17 @@ import React from 'react';
 
 const Post = () => {
     return (
-        <div>
-            <a href="#" class="group bg-slate-500">
-                <div class="transition ease-in-out group-hover:-translate-y-2">
+        <div class="bg-white dark:bg-black">
+            <a href="#" class="group">
+                <div class="transition ease-in-out group-hover:-translate-y-2 bg-slate-100  dark:bg-[#1E1E1E] rounded-md">
 
-                    <div class="w-full aspect-[7/4] bg-gray-200 rounded-md overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
+                    <div class="w-full aspect-[7/4] bg-gray-200  rounded-t-md overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
                         <img src="https://velog.velcdn.com/images/limsaehyun/post/8f076de5-1a20-4e8b-a2bb-19e080c8d2c5/image.jpg" alt="Tall slender porcelain bottle with natural clay textured body and cork stopper." class="w-full h-full object-center object-cover" />
                     </div>
 
                     <div class="flex-col p-2">
                         <div class="block p-2">
-                            <h2 class="mt-4 text-md text-gray-800">사이드 프로젝트 플랫폼 정보 모음</h2>
+                            <h2 class="mt-4 text-md text-gray-800 dark:text-gray-300">사이드 프로젝트 플랫폼 정보 모음</h2>
 
                             {/* 제목 */}
                             <div>
@@ -30,6 +30,15 @@ const Post = () => {
                                 </span>
                                 <span class="text-xs text-gray-400">
                                     10개의 댓글
+                                </span>
+                            </div>
+
+                            <div class="mt-1">
+                                <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 mr-2">
+                                    tech
+                                </span>
+                                <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 mr-2">
+                                    general
                                 </span>
                             </div>
 
