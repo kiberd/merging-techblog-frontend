@@ -13,8 +13,11 @@ const RectanglePostList = ({ data }) => {
 
     const getMorePost = async () => {
         
-        const { data } = await axios(`https://jsonplaceholder.typicode.com/photos?_start=${posts.length}&_limit=10`);
-        setPosts((post) => [...post, ...data]);
+        if(posts){
+            const { data } = await axios(`https://jsonplaceholder.typicode.com/photos?_start=${posts.length}&_limit=10`);
+            setPosts((post) => [...post, ...data]);
+        
+        }
         
     };
 
@@ -23,8 +26,9 @@ const RectanglePostList = ({ data }) => {
         <div class="bg-white dark:bg-black">
             <div class="max-w-2xl mx-auto py-2 px-4 sm:py-5 sm:px-0 lg:max-w-7xl lg:px-8">
                 <div>
+
                     <InfiniteScroll
-                        dataLength={posts.length}
+                        dataLength={posts?.length}
                         next={getMorePost}
                         hasMore={hasMore}
                         pullDownToRefreshThreshold={100}
@@ -32,7 +36,7 @@ const RectanglePostList = ({ data }) => {
                         endMessage={<h4>Nothing more to show</h4>}
                     >
                         {
-                            posts.map((data) => (
+                            posts && posts.map((data) => (
                                 <RectanglePost data={data} />
                             ))
                         }
