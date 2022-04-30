@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 
 import Layout from '../components/Layout';
 import SquarePostList from '../components/SquarePostList'
@@ -15,6 +16,11 @@ export default function Home(props) {
   const [isList, setIsList] = useRecoilState(listState);
   
   return (
+    <>
+    <Head>
+      <meta name="google" content="notranslate" />
+    </Head>
+    
     <Layout>
 
       {/* main section */}
@@ -29,6 +35,8 @@ export default function Home(props) {
       </main>
 
     </Layout>
+
+    </>
 
   )
 }

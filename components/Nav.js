@@ -18,9 +18,9 @@ const Nav = () => {
                 <div class="py-3 px-6 sm:px-12 lg:px-0">
                     {/* <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1> */}
                     <div class="max-w-7xl mx-auto flex items-baseline space-x-4">
-                        <a href="/" class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium  ${router.asPath === '/' ? "border-b" : null }`} aria-current="page">Tranding</a>
-                        <a href="/new" class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === '/new' ? "border-b" : null }`}>New</a>
-                        <a href="/search" class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === '/search' ? "border-b" : null }`}>Search</a>
+                        <a href="/" class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium  ${router.asPath === '/' ? "border-b-2 border-gray-400" : null }`} aria-current="page">Tranding</a>
+                        <a href="/new" class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === '/new' ? "border-b-2 border-gray-400" : null }`}>New</a>
+                        <a href="/search" class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === '/search' ? "border-b-2 border-gray-400" : null }`}>Search</a>
                         {/* <CompanySelectBox/> */}
                     </div>
                 </div>

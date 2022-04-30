@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Head from 'next/head';
 
 import Layout from '../components/Layout';
 import SquarePostList from '../components/SquarePostList'
@@ -7,27 +8,44 @@ import RectanglePostList from '../components/RectanglePostList'
 import { listState } from '../atoms/style';
 import { useRecoilState } from 'recoil';
 
-const New = () => {
+import { getPost } from '../api/posts';
+
+const New = (props) => {
 
     const [isList, setIsList] = useRecoilState(listState);
 
     return (
-        <Layout>
+        <>
+            <Head>
+                <meta name="google" content="notranslate" />
+            </Head>
 
-            {/* main section */}
-            <main class="bg-white dark:bg-black">
-                <div class="max-w-25xl mx-auto py-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
-                    <div class="px-4 py-2 sm:px-0 bg-white dark:bg-black">
-                        <div class="h-100">
-                            {isList ? <RectanglePostList /> : <SquarePostList />}
+            <Layout>
+
+                {/* main section */}
+                <main class="bg-white dark:bg-black">
+                    <div class="max-w-25xl mx-auto py-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
+                        <div class="px-4 py-2 sm:px-0 bg-white dark:bg-black">
+                            <div class="h-100">
+                                {isList ? <RectanglePostList data={props.data} /> : <SquarePostList data={props.data} />}
+                            </div>
                         </div>
                     </div>
-                </div>
-            </main>
+                </main>
 
-        </Layout>
+            </Layout>
+        </>
 
     );
 };
 
 export default New;
+
+export const getStaticProps = async () => {
+
+    const data = await getPost(10);
+
+    return {
+        props: { data }
+    }
+};
