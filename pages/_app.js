@@ -2,9 +2,16 @@ import '../styles/globals.css'
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'next-themes'
+import dynamic from 'next/dynamic';
+
+
+
+
 
 
 function MyApp({ Component, pageProps }) {
+
+  
 
   return (
     <RecoilRoot>
