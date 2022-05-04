@@ -2,16 +2,17 @@ import '../styles/globals.css'
 import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'next-themes'
-import dynamic from 'next/dynamic';
-
-
-
 
 
 
 function MyApp({ Component, pageProps }) {
 
-  
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      require('flowbite');
+    }
+  }, []);
+
 
   return (
     <RecoilRoot>
@@ -19,8 +20,6 @@ function MyApp({ Component, pageProps }) {
         <Component {...pageProps} />
       </ThemeProvider>
     </RecoilRoot>)
-
-
 }
 
 export default MyApp

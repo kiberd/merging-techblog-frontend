@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
-import { listState } from '../atoms/style';
+import { listState } from '../../atoms/style';
 
 
 const Nav = () => {

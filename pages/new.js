@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Head from 'next/head';
 
-import Layout from '../components/Layout';
-import SquarePostList from '../components/SquarePostList'
-import RectanglePostList from '../components/RectanglePostList'
+import Layout from '../components/layout/Layout';
+import SquarePostList from '../components/post/SquarePostList'
+import RectanglePostList from '../components/post/RectanglePostList'
 
 import { listState } from '../atoms/style';
 import { useRecoilState } from 'recoil';
