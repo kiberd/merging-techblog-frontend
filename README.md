@@ -1,5 +1,5 @@
-###techblog frontend
+# Merge Techblog Frontend
 
-# Next.js
-# tailwindcss
-# recoil
+## Next.js
+## tailwindcss
+## recoil
