@@ -1,18 +1,14 @@
 import React from 'react';
-import Layout from '../components/layout/Layout';
-import dynamic from 'next/dynamic';
-import Script from 'next/script';
+import WriteLayout from '../components/layout/WriteLayout';
 import Head from 'next/head';
-
-import SearchContainer from '../components/search/SearchContainer';
-import ResultContainer from '../components/search/ResultContainer';
+import WriteContainer from '../components/write/WriteContainer';
 
 const Search = () => {
 
     return (
         <>
 
-            <Layout>
+            <WriteLayout>
                 <Head>
                     <meta name="google" content="notranslate" />
                 </Head>
@@ -22,13 +18,15 @@ const Search = () => {
                     <div class="max-w-25xl mx-auto py-4 sm:px-6 lg:px-8 bg-white dark:bg-black">
                         <div class="px-4 py-2 sm:px-0 bg-white dark:bg-black">
                             <div class="h-100">
-                                <SearchContainer />
-                                <ResultContainer />
+
+                                <WriteContainer />
+
+
                             </div>
                         </div>
                     </div>
                 </main>
-            </Layout>
+            </WriteLayout>
         </>
     );
 };
