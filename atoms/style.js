@@ -5,4 +5,9 @@ const listState = atom({
   default: true,
 });
 
-export { listState };
+const loginModalState = atom({
+  key: 'loginModalState',
+  default: false
+})
+
+export { listState, loginModalState };

@@ -1,12 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTheme } from 'next-themes';
+
+import Login from '../common/Login';
+
+import { useRecoilState } from 'recoil';
+import { loginModalState } from '../../atoms/style';
+
 
 const Header = () => {
 
     const { theme, setTheme } = useTheme();
+    const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(loginModalState);
 
     return (
-
+        <>
         <header class="bg-white dark:bg-black">
             {/* desktop */}
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -21,8 +28,18 @@ const Header = () => {
                             </a>
                         </div>
                     </div>
+
+
+
                     {/* right icon */}
-                    <div class="hidden md:block">
+                    <div class="hidden md:flex">
+
+                        <div>
+                            <button onClick={() => setIsLoginModalOpen(!isLoginModalOpen)} type="button" class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white">
+                                Login
+                            </button>
+                        </div>
+
                         <div class="ml-4 flex items-center md:ml-6">
 
 
@@ -53,6 +70,9 @@ const Header = () => {
             </div>
 
         </header>
+
+        </>
+
 
     );
 };
