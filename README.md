@@ -1,4 +1,4 @@
-###techblog frontend
+## techblog frontend
 
 - Next.js
 - tailwindcss
