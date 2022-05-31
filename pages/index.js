@@ -11,7 +11,7 @@ import { useRecoilState } from 'recoil';
 import { getPost } from '../api/posts';
 
 
-export default function Home(props) {
+export default function Home() {
 
   const [isList, setIsList] = useRecoilState(listState);
   

@@ -8,7 +8,7 @@ import RectanglePostList from '../components/post/RectanglePostList'
 import { listState } from '../atoms/style';
 import { useRecoilState } from 'recoil';
 
-import { getPost } from '../api/posts';
+import { getFakePost } from '../api/posts';
 
 const New = (props) => {
 
@@ -43,7 +43,7 @@ export default New;
 
 export const getStaticProps = async () => {
 
-    const data = await getPost(10);
+    const data = await getFakePost(10);
 
     return {
         props: { data }
