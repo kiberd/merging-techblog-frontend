@@ -3,21 +3,25 @@ import React, { useEffect } from 'react';
 import { RecoilRoot } from 'recoil'
 import { ThemeProvider } from 'next-themes'
 
+import { Hydrate, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
+
 
 
 function MyApp({ Component, pageProps }) {
 
-  useEffect(() => {
-    if (typeof window !== 'undefined') {
-      require('flowbite');
-    }
-  }, []);
-
+  const [queryClient] = React.useState(() => new QueryClient());
 
   return (
     <RecoilRoot>
       <ThemeProvider defaultTheme="light" attribute="class">
-        <Component {...pageProps} />
+        <QueryClientProvider client={queryClient}>
+          <Hydrate state={pageProps.dehydratedState}>
+            <Component {...pageProps} />
+          </Hydrate>
+          <ReactQueryDevtools />
+        </QueryClientProvider>
+
       </ThemeProvider>
     </RecoilRoot>)
 }
