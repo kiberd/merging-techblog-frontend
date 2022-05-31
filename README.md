@@ -1,5 +1,5 @@
-###techblog frontend
+## techblog frontend
 
-# Next.js
-# tailwindcss
-# recoil
+- Next.js
+- tailwindcss
+- recoil
