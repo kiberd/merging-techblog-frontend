@@ -1,14 +1,15 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
-import { Menu, Transition, Listbox } from '@headlessui/react'
+import { Menu, Transition, Listbox, Popover, Disclosure } from '@headlessui/react'
+
+
 
 import { useRouter } from 'next/router';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import { listState } from '../../atoms/style';
 
 
-import { CheckIcon, ChevronDownIcon } from '@heroicons/react/solid';
-
+import { CheckIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/solid';
 
 import { searchFilterState } from '../../atoms/search';
 
@@ -18,6 +19,28 @@ const unit = [
     { name: "1일", value: "days" },
     { name: "1주", value: "weeks" },
 ];
+
+const solutions = [
+    {
+        name: 'Insights',
+        description: 'Measure actions',
+        href: '##',
+        icon: IconOne,
+    },
+    {
+        name: 'Automations',
+        description: 'targeted content',
+        href: '##',
+        icon: IconTwo,
+    },
+    {
+        name: 'Reports',
+        description: 'Keep track of your growth',
+        href: '##',
+        icon: IconThree,
+    },
+]
+
 
 
 const Nav = () => {
@@ -55,7 +78,38 @@ const Nav = () => {
                     </div>
                 </div>
 
+
                 <div class="flex items-baseline sm:px-11 lg:px-0">
+
+                    <div className="">
+                        <div className="mr-2 border rounded-md">
+                            <Disclosure as="div" className="mt-2">
+                                {({ open }) => (
+                                    <>
+                                        <Disclosure.Button className="flex justify-between w-full px-5 pb-2 text-left rounded-lg">
+                                            <span className="mr-2 text-sm text-gray-600">Company</span>
+                                            <ChevronDownIcon
+                                                className={`${open ? 'rotate-180 transform' : ''} h-5 w-5`}
+                                            />
+                                        </Disclosure.Button>
+                                        <Disclosure.Panel className="absolute z-40 p-2 mt-2 bg-white border rounded-md top-30">
+                                            <div className="grid gap-4 p-3 bg-white elative lg:grid-cols-3">
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">라인</span></div>
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">카카오</span></div>
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">배민</span></div>
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
+                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
+                                            </div>
+                                        </Disclosure.Panel>
+                                    </>
+                                )}
+                            </Disclosure>
+
+                        </div>
+                    </div>
+
 
                     <div>
                         <input onChange={handleKeywordChange} type="search" id="default-search" class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500" placeholder="키워드를 입력해 주세요" required="" />
@@ -142,3 +196,306 @@ const Nav = () => {
 };
 
 export default Nav;
+
+
+
+function IconOne() {
+    return (
+        <svg
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="48" height="48" rx="8" fill="#FFEDD5" />
+            <path
+                d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
+                stroke="#FB923C"
+                strokeWidth="2"
+            />
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
+                stroke="#FDBA74"
+                strokeWidth="2"
+            />
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
+                stroke="#FDBA74"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function IconTwo() {
+    return (
+        <svg
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="48" height="48" rx="8" fill="#FFEDD5" />
+            <path
+                d="M28.0413 20L23.9998 13L19.9585 20M32.0828 27.0001L36.1242 34H28.0415M19.9585 34H11.8755L15.9171 27"
+                stroke="#FB923C"
+                strokeWidth="2"
+            />
+            <path
+                fillRule="evenodd"
+                clipRule="evenodd"
+                d="M18.804 30H29.1963L24.0001 21L18.804 30Z"
+                stroke="#FDBA74"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function IconThree() {
+    return (
+        <svg
+            width="48"
+            height="48"
+            viewBox="0 0 48 48"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect width="48" height="48" rx="8" fill="#FFEDD5" />
+            <rect x="13" y="32" width="2" height="4" fill="#FDBA74" />
+            <rect x="17" y="28" width="2" height="8" fill="#FDBA74" />
+            <rect x="21" y="24" width="2" height="12" fill="#FDBA74" />
+            <rect x="25" y="20" width="2" height="16" fill="#FDBA74" />
+            <rect x="29" y="16" width="2" height="20" fill="#FB923C" />
+            <rect x="33" y="12" width="2" height="24" fill="#FB923C" />
+        </svg>
+    )
+}
+
+function EditInactiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M4 13V16H7L16 7L13 4L4 13Z"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function EditActiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M4 13V16H7L16 7L13 4L4 13Z"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function DuplicateInactiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M4 4H12V12H4V4Z"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+            <path
+                d="M8 8H16V16H8V8Z"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function DuplicateActiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                d="M4 4H12V12H4V4Z"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+            <path
+                d="M8 8H16V16H8V8Z"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+        </svg>
+    )
+}
+
+function ArchiveInactiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect
+                x="5"
+                y="8"
+                width="10"
+                height="8"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+            <rect
+                x="4"
+                y="4"
+                width="12"
+                height="4"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+            <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
+        </svg>
+    )
+}
+
+function ArchiveActiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect
+                x="5"
+                y="8"
+                width="10"
+                height="8"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+            <rect
+                x="4"
+                y="4"
+                width="12"
+                height="4"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+            <path d="M8 12H12" stroke="#A78BFA" strokeWidth="2" />
+        </svg>
+    )
+}
+
+function MoveInactiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M10 4H16V10" stroke="#A78BFA" strokeWidth="2" />
+            <path d="M16 4L8 12" stroke="#A78BFA" strokeWidth="2" />
+            <path d="M8 6H4V16H14V12" stroke="#A78BFA" strokeWidth="2" />
+        </svg>
+    )
+}
+
+function MoveActiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path d="M10 4H16V10" stroke="#C4B5FD" strokeWidth="2" />
+            <path d="M16 4L8 12" stroke="#C4B5FD" strokeWidth="2" />
+            <path d="M8 6H4V16H14V12" stroke="#C4B5FD" strokeWidth="2" />
+        </svg>
+    )
+}
+
+function DeleteInactiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect
+                x="5"
+                y="6"
+                width="10"
+                height="10"
+                fill="#EDE9FE"
+                stroke="#A78BFA"
+                strokeWidth="2"
+            />
+            <path d="M3 6H17" stroke="#A78BFA" strokeWidth="2" />
+            <path d="M8 6V4H12V6" stroke="#A78BFA" strokeWidth="2" />
+        </svg>
+    )
+}
+
+function DeleteActiveIcon(props) {
+    return (
+        <svg
+            {...props}
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <rect
+                x="5"
+                y="6"
+                width="10"
+                height="10"
+                fill="#8B5CF6"
+                stroke="#C4B5FD"
+                strokeWidth="2"
+            />
+            <path d="M3 6H17" stroke="#C4B5FD" strokeWidth="2" />
+            <path d="M8 6V4H12V6" stroke="#C4B5FD" strokeWidth="2" />
+        </svg>
+    )
+}

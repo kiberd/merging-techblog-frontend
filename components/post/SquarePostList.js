@@ -13,7 +13,7 @@ import { searchFilterState } from '../../atoms/search';
 
 const SquarePostList = () => {
 
-    const [posts, setPosts] = useState();
+    const [entireData, setEntireData] = useState();
     const [filterData, setFilterData] = useState();
     const filter = useRecoilValue(searchFilterState);
 
@@ -29,33 +29,28 @@ const SquarePostList = () => {
 
     useEffect(() => {
 
+        setEntireData(postData);
         setFilterData(postData);
 
     }, [postData]);
 
     useEffect(() => {
 
-
-        if (filterData) {
-
-            
+        if (entireData && !isLoading && !isFetching) {
 
             let newFilterData;
 
             if (filter.keyword !== '') {
-                newFilterData = postData.filter((data) => {
+                newFilterData = entireData.filter((data) => {
                     
                     return data.title.includes(filter.keyword)
                 })
             } else {
-                newFilterData = postData;
+                newFilterData = entireData;
             }
-
-            
 
             setFilterData(newFilterData);
         }
-
 
     }, [filter]);
 
