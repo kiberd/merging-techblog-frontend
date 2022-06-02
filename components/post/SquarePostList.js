@@ -6,27 +6,16 @@ import { getMorePost, getPost } from '../../api/posts';
 
 import { useQuery } from 'react-query';
 
+import { useRecoilValue } from 'recoil';
+import { searchFilterState } from '../../atoms/search';
+
 
 
 const SquarePostList = () => {
 
     const [posts, setPosts] = useState();
-    // const [hasMore, setHasMore] = useState(true);
-
-    // const getMorePost = async () => {
-
-    //     if(posts){
-    //         const { data } = await axios(`https://jsonplaceholder.typicode.com/photos?_start=${posts.length}&_limit=10`);
-    //         setPosts((post) => [...post, ...data]);
-
-    //     }
-
-    // };
-
-    // useEffect( async () => {
-    //     const data = await getPost();
-    //     console.log(data);
-    // },[])
+    const [filterData, setFilterData] = useState();
+    const filter = useRecoilValue(searchFilterState);
 
     const {
         isLoading,
@@ -38,7 +27,38 @@ const SquarePostList = () => {
         enabled: true,
     });
 
-    
+    useEffect(() => {
+
+        setFilterData(postData);
+
+    }, [postData]);
+
+    useEffect(() => {
+
+
+        if (filterData) {
+
+            
+
+            let newFilterData;
+
+            if (filter.keyword !== '') {
+                newFilterData = postData.filter((data) => {
+                    
+                    return data.title.includes(filter.keyword)
+                })
+            } else {
+                newFilterData = postData;
+            }
+
+            
+
+            setFilterData(newFilterData);
+        }
+
+
+    }, [filter]);
+
 
 
     return (
@@ -64,9 +84,9 @@ const SquarePostList = () => {
                         </div>
                     </InfiniteScroll> */}
 
-                <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+                <div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-3 xl:gap-x-8">
                     {
-                        postData && postData.map((data) => (
+                        filterData && filterData.map((data) => (
                             <SquarePost data={data} />
                         ))
                     }
