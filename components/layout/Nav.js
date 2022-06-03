@@ -39,6 +39,13 @@ const solutions = [
         href: '##',
         icon: IconThree,
     },
+];
+
+const companys = [
+    { name: "라인", value: "line" },
+    { name: "카카오", value: "kakao" },
+    { name: "배민", value: "baemin" },
+    { name: "뱅크샐러드", value: "banksalad" }
 ]
 
 
@@ -58,6 +65,38 @@ const Nav = () => {
             ...filterState
         };
         newFilter.keyword = e.target.value;
+
+        setFilterState(newFilter);
+
+    };
+
+    const handleCompanyCheckbox = (e) => {
+
+        const targetCompany = e.target.value;
+
+        const newFilter = {
+            ...filterState
+        };
+
+        // 이미 포함 되어 있으면 지워야 함
+        if (newFilter.company.includes(targetCompany)) {
+
+            const newCompanyFilter = [...filterState.company];
+            const filterdCompany = newCompanyFilter.filter((company) => company !== targetCompany);
+
+            newFilter.company = filterdCompany;
+
+        } else {
+
+            const newCompanyFilter = [...filterState.company];
+            newCompanyFilter.push(targetCompany);
+
+            const set = new Set(newCompanyFilter);
+            const uniqueArr = [...set];
+
+            newFilter.company = uniqueArr;
+
+        }
 
         setFilterState(newFilter);
 
@@ -94,13 +133,9 @@ const Nav = () => {
                                         </Disclosure.Button>
                                         <Disclosure.Panel className="absolute z-40 p-2 mt-2 bg-white border rounded-md top-30">
                                             <div className="grid gap-4 p-3 bg-white elative lg:grid-cols-3">
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">라인</span></div>
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">카카오</span></div>
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">배민</span></div>
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
-                                            <div><input class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value="" id="flexCheckDefault" /><span className="text-sm">뱅크샐러드</span></div>
+                                                {companys.map((company) => (
+                                                    <div><input onChange={handleCompanyCheckbox} class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer" type="checkbox" value={company.value} id="flexCheckDefault" /><span className="text-sm">{company.name}</span></div>
+                                                ))}
                                             </div>
                                         </Disclosure.Panel>
                                     </>

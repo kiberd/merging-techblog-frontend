@@ -4,7 +4,8 @@ const searchFilterState = atom({
   key: 'searchFilterState',
   default: {
       keyword: '',
-      category: ''
+      category: '',
+      company: []
   },
 });
 
