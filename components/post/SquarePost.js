@@ -1,7 +1,23 @@
 import React from 'react';
-import '../../public/line.png'
+
+
+const logoUrl = (companyId) => {
+
+    switch (companyId) {
+        case 1:
+            return "/line.png"
+        case 2:
+            return "/kakao.png"
+        case 3:
+            return "/wooahan.png"
+        default:
+            return "/line.png"
+    }
+}
+
 
 const Post = ({ data }) => {
+
 
 
     return (
@@ -18,7 +34,7 @@ const Post = ({ data }) => {
 
                             <div>
                                 {/* <img class="object-cover rounded-full block w-6 h-6 mr-2" src="https://velog.velcdn.com/images/limsaehyun/profile/f45a5b82-3718-49e9-9c43-7f889802aee2/social.jpeg" alt="user thumbnail of limsaehyun" /> */}
-                                <img class="object-cover rounded-full block w-9 h-9 mr-2" src="/line.png" />
+                                <img class="object-cover rounded-full block w-9 h-9 mr-2" src={logoUrl(data.companyId)} />
                             </div>
 
                             <h2 class="my-4 text-xl text-gray-800 dark:text-gray-300 line-clamp-2 min-h-[6vh]">{data.title}</h2>

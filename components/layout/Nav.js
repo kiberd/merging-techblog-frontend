@@ -42,10 +42,10 @@ const solutions = [
 ];
 
 const companys = [
-    { name: "라인", value: "line" },
-    { name: "카카오", value: "kakao" },
-    { name: "배민", value: "baemin" },
-    { name: "뱅크샐러드", value: "banksalad" }
+    { name: "라인", value: 1 },
+    { name: "카카오", value: 2 },
+    { name: "우아한형제들", value: 3 },
+    // { name: "뱅크샐러드", value: "banksalad" }
 ]
 
 
@@ -72,23 +72,23 @@ const Nav = () => {
 
     const handleCompanyCheckbox = (e) => {
 
-        const targetCompany = e.target.value;
+        const targetCompany =  Number(e.target.value);
 
         const newFilter = {
             ...filterState
         };
 
+        const newCompanyFilter = [...filterState.company];
+
         // 이미 포함 되어 있으면 지워야 함
         if (newFilter.company.includes(targetCompany)) {
 
-            const newCompanyFilter = [...filterState.company];
             const filterdCompany = newCompanyFilter.filter((company) => company !== targetCompany);
-
             newFilter.company = filterdCompany;
 
         } else {
 
-            const newCompanyFilter = [...filterState.company];
+
             newCompanyFilter.push(targetCompany);
 
             const set = new Set(newCompanyFilter);
