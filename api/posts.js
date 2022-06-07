@@ -8,9 +8,9 @@ export const getFakePost = async (limit) => {
     return data;
 };
 
-export const getPost = async (limit) => {
+export const getPost = async (offset) => {
 
-    const { data } = await axios("/post");
+    const { data } = await axios(`/view/${offset}/10`);
 
     return data;
 };

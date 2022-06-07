@@ -44,7 +44,8 @@ export default function Home() {
 
 // export const getStaticProps = async () => {
   
-//   const data = await getPost(10);
+//   const data = await getPost(0);
+//   console.log(data);
 
 //   return {
 //     props: { data }
