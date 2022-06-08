@@ -30,8 +30,8 @@ const RectanglePostList = ({ data }) => {
                         next={getMorePost}
                         hasMore={hasMore}
                         pullDownToRefreshThreshold={100}
-                        loader={<h3> Loading...</h3>}
-                        endMessage={<h4>Nothing more to show</h4>}
+                        // loader={<h3> Loading...</h3>}
+                        // endMessage={<h4>Nothing more to show</h4>}
                     >
                         {
                             posts && posts.map((data) => (
