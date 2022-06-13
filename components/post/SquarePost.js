@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useEffect, useState } from 'react';
 
 const logoUrl = (companyId) => {
 
@@ -18,6 +17,19 @@ const logoUrl = (companyId) => {
 
 const Post = ({ data }) => {
 
+    const [tagList, setTagList] = useState();
+    const [openTagList, setOpenTagList] = useState(true);
+
+    useEffect(() => {
+
+        const arrDup = data.tagList;
+        const arrUnique = arrDup.filter((tagObj, index, arr) => {
+            return arr.findIndex(item => item.tag === tagObj.tag && item.tagLink === tagObj.tagLink) === index
+        });
+
+        setTagList(arrUnique);
+
+    }, [data]);
 
 
     return (
@@ -74,15 +86,43 @@ const Post = ({ data }) => {
                                     {/* <img class="object-cover rounded-full block w-6 h-6 mr-2" src="https://velog.velcdn.com/images/limsaehyun/profile/f45a5b82-3718-49e9-9c43-7f889802aee2/social.jpeg" alt="user thumbnail of limsaehyun" /> */}
                                     <span class="text-xs text-gray-400">by  <span class="text-gray-600 text-xs">{data.author}</span></span>
                                 </div>
-                                <div class="flex items-center mt-2">
-                                    <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 mr-2">
-                                        tech
-                                    </span>
-                                    <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 mr-2">
-                                        general
-                                    </span>
-                                </div>
+
+
+
+
+
                             </div>
+
+                            <div class="mt-2 flex justify-between min-h-[4vh]">
+
+
+                                <div class="grid grid-rows-2 grid-flow-col">
+                                    {openTagList && tagList && tagList.map((tagObj) => (
+                                        <div class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-[2px] w-fit ml-1 mb-1 justify-center flex">
+                                            <span>
+                                            {tagObj.tag}
+                                            </span>
+                                        </div>
+                                    ))}
+                                </div>
+
+                                {/* {!openTagList && tagList && tagList.length > 0 ?
+                                        <div class="flex">
+
+                                            <div class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 w-fit mt-1">
+                                                {tagList[0].tag}
+                                            </div>
+
+                                            {tagList.length > 0 ? <div class="text-xs p-1 w-fit mt-1">...</div> : null}
+
+                                        </div> : null}
+ */}
+
+
+
+                            </div>
+
+
 
 
 
