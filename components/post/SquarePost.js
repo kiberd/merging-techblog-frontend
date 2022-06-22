@@ -18,7 +18,7 @@ const logoUrl = (companyId) => {
 const Post = ({ data }) => {
 
     const [tagList, setTagList] = useState();
-    const [openTagList, setOpenTagList] = useState(true);
+    const [openTagList, setOpenTagList] = useState(false);
 
     useEffect(() => {
 
@@ -31,21 +31,20 @@ const Post = ({ data }) => {
 
     }, [data]);
 
+    const handleTagListClick = (e) => {
+        e.preventDefault();
+        setOpenTagList(!openTagList);
+    }
+
 
     return (
         <div class="bg-white dark:bg-black">
             <a href={`${data.link}`} target="_blank" class="group">
                 <div class="transition ease-in-out group-hover:-translate-y-2 bg-slate-100  dark:bg-[#1E1E1E] rounded-md">
-
-                    {/* <div class="w-full p-4 rounded-t-md overflow-hidden xl:aspect-w-7 xl:aspect-h-8">
-                        <img class="object-cover rounded-full block w-6 h-6 mr-2" src="https://velog.velcdn.com/images/limsaehyun/profile/f45a5b82-3718-49e9-9c43-7f889802aee2/social.jpeg" alt="user thumbnail of limsaehyun" />
-                    </div> */}
-
                     <div class="flex-col p-1">
                         <div class="block p-2">
 
                             <div>
-                                {/* <img class="object-cover rounded-full block w-6 h-6 mr-2" src="https://velog.velcdn.com/images/limsaehyun/profile/f45a5b82-3718-49e9-9c43-7f889802aee2/social.jpeg" alt="user thumbnail of limsaehyun" /> */}
                                 <img class="object-cover rounded-full block w-9 h-9 mr-2" src={logoUrl(data.companyId)} />
                             </div>
 
@@ -60,80 +59,49 @@ const Post = ({ data }) => {
                             {/* 설명 */}
                             <div class="mt-2">
                                 <span class="text-xs text-gray-400">
-                                    {/* 2022년 4월 18일 */}
                                     {data.date[0]}년 {data.date[1]}월 {data.date[2]}일
                                 </span>
-                                {/* <span class="text-xs px-2 text-gray-400">
-                                    ·
-                                </span>
-                                <span class="text-xs text-gray-400">
-                                    10개의 댓글
-                                </span> */}
                             </div>
-
-                            <div class="mt-1">
-                                {/* <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 mr-2">
-                                    tech
-                                </span>
-                                <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 mr-2">
-                                    general
-                                </span> */}
-                            </div>
-
                             {/* 작성자 */}
                             <div class="border-t border-gray-200 mt-2 flex justify-between">
                                 <div class="flex items-center mt-2">
                                     {/* <img class="object-cover rounded-full block w-6 h-6 mr-2" src="https://velog.velcdn.com/images/limsaehyun/profile/f45a5b82-3718-49e9-9c43-7f889802aee2/social.jpeg" alt="user thumbnail of limsaehyun" /> */}
                                     <span class="text-xs text-gray-400">by  <span class="text-gray-600 text-xs">{data.author}</span></span>
                                 </div>
-
-
-
-
-
                             </div>
-
-                            <div class="mt-2 flex justify-between min-h-[4vh]">
-
-
-                                <div class="grid grid-rows-2 grid-flow-col">
-                                    {openTagList && tagList && tagList.map((tagObj) => (
-                                        <div class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-[2px] w-fit ml-1 mb-1 justify-center flex">
-                                            <span>
-                                            {tagObj.tag}
-                                            </span>
-                                        </div>
-                                    ))}
+                            {/* Tag List */}
+                            <div class="mt-2 flex justify-between">
+                                <div class="flex min-h-[1.6rem]">
+                                    {!openTagList && tagList && tagList.map((tagObj, index) => {
+                                        if (index === 0 || index === 1) {
+                                            return (
+                                                <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-[0.5rem] justify-center flex px-2 py-1 mr-1 w-auto">
+                                                    {tagObj.tag}
+                                                </span>
+                                            )
+                                        }
+                                    })}
                                 </div>
-
-                                {/* {!openTagList && tagList && tagList.length > 0 ?
-                                        <div class="flex">
-
-                                            <div class="rounded-md bg-slate-300 dark:bg-slate-600 text-xs p-1 w-fit mt-1">
-                                                {tagList[0].tag}
-                                            </div>
-
-                                            {tagList.length > 0 ? <div class="text-xs p-1 w-fit mt-1">...</div> : null}
-
-                                        </div> : null}
- */}
-
-
-
+                                {tagList?.length > 3 ?
+                                    <div onClick={handleTagListClick}>
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-500 mt-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h.01M12 12h.01M19 12h.01M6 12a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0zm7 0a1 1 0 11-2 0 1 1 0 012 0z" />
+                                        </svg>
+                                    </div> : null}
                             </div>
 
-
-
-
-
+                            <div>
+                                {openTagList && tagList && tagList.map((tagObj, index) => {
+                                    if (tagList.length > 2) return (
+                                        <span class="rounded-md bg-slate-300 dark:bg-slate-600 text-[0.5rem] justify-center flex px-2 py-1 my-1 w-auto">
+                                            {tagObj.tag}
+                                        </span>
+                                    )
+                                })}
+                            </div>
                         </div>
                     </div>
-
                 </div>
-
-
-
-
             </a>
         </div>
     );

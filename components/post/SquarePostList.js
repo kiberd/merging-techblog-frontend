@@ -25,7 +25,7 @@ const SquarePostList = () => {
 		data: postData,
 		isFetching,
 		refetch: fetchPost,
-	} = useQuery("getPost", () => getPost(posts.length / 10 + 1), {
+	} = useQuery("getPost", () => getPost(posts.length), {
 		enabled: true,
 	});
 
