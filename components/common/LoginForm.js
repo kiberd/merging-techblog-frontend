@@ -1,11 +1,14 @@
-import React from 'react';
-
+import React, { useEffect } from 'react';
 
 import { useRecoilState } from 'recoil'
 import { loginModalState } from '../../atoms/style'
 
+import { useSession, signIn, signOut } from "next-auth/react";
+
 
 const LoginForm = () => {
+
+    const { data: session, status } = useSession();
 
     const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(loginModalState);
 
@@ -72,14 +75,14 @@ const LoginForm = () => {
                         or Sign In With Social Account
                     </div>
                     <div class="grid grid-cols-4 gap-1">
-                        <div class="border-2 rounded-md text-center dark:text-gray-400">Google</div>
-                        <div class="border-2 rounded-md text-center dark:text-gray-400">Facebook</div>
+                        <div class="border-2 rounded-md text-center dark:text-gray-400" onClick={() => signIn()}>Google</div>
+                        {/* <div class="border-2 rounded-md text-center dark:text-gray-400">Facebook</div>
                         <div class="border-2 rounded-md text-center dark:text-gray-400">Github</div>
                         <div class="border-2 rounded-md text-center dark:text-gray-400">Apple</div>
                         <div class="border-2 rounded-md text-center dark:text-gray-400">Instagram</div>
                         <div class="border-2 rounded-md text-center dark:text-gray-400">Twitter</div>
                         <div class="border-2 rounded-md text-center dark:text-gray-400">Naver</div>
-                        <div class="border-2 rounded-md text-center dark:text-gray-400">Kakao</div>
+                        <div class="border-2 rounded-md text-center dark:text-gray-400">Kakao</div> */}
                     </div>
 
 

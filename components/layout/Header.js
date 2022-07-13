@@ -140,11 +140,8 @@ function IconThree() {
 }
 
 const Header = () => {
-    
-    const { data: session, status } = useSession();
 
-    console.log(session);
-    console.log(status);
+	const { data: session, status } = useSession();
 
 	const router = useRouter();
 
@@ -224,9 +221,20 @@ const Header = () => {
 
 						{/* right icon */}
 						<div class="flex">
-							{/* Login */}
-							<div>
 
+							{/* 글쓰기 */}
+							{session ?
+								<div class="lex items-center md:ml-2">
+									<button
+										type="button"
+										class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
+									>
+										<Link href={"/write"}>글쓰기</Link>
+									</button>
+								</div> : null}
+
+							{/* Login */}
+							<div class="ml-4">
 								{session ? (
 									<button
 										onClick={() => signOut()}
@@ -237,25 +245,16 @@ const Header = () => {
 									</button>
 								) : (
 									<button
-										onClick={() => signIn()}
+										onClick={() => setIsLoginModalOpen(true)}
 										type="button"
 										class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
 									>
 										Login
 									</button>
 								)}
+							</div>
 
 
-							</div>
-							{/* 글쓰기 */}
-							<div class="ml-4 flex items-center md:ml-2">
-								<button
-									type="button"
-									class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
-								>
-									<Link href={"/write"}>글쓰기</Link>
-								</button>
-							</div>
 							{/* 검색 */}
 							<div class="ml-4 flex items-center md:ml-6">
 								<button>
@@ -323,25 +322,26 @@ const Header = () => {
 							<div class="max-w-7xl mx-auto flex items-baseline space-x-4">
 								<a
 									href="/"
-									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium  ${
-										router.asPath === "/"
-											? "border-b-2 border-gray-400"
-											: null
-									}`}
+									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium  ${router.asPath === "/"
+										? "border-b-2 border-gray-400"
+										: null
+										}`}
 									aria-current="page"
 								>
 									Tranding
 								</a>
-								<a
-									href="/new"
-									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${
-										router.asPath === "/new"
+								{session ?
+									<a
+										href="/new"
+										class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === "/new"
 											? "border-b-2 border-gray-400"
 											: null
-									}`}
-								>
-									Bookmark
-								</a>
+											}`}
+									>
+										Bookmark
+									</a>
+									: null}
+
 								{/* <a
 									href="/search"
 									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${
@@ -368,11 +368,10 @@ const Header = () => {
 														Company
 													</span>
 													<ChevronDownIcon
-														className={`${
-															open
-																? "rotate-180 transform"
-																: ""
-														} h-5 w-5`}
+														className={`${open
+															? "rotate-180 transform"
+															: ""
+															} h-5 w-5`}
 													/>
 												</Disclosure.Button>
 												<Disclosure.Panel className="absolute z-40 p-2 mt-2 bg-white border rounded-md dark:bg-black top-30">
@@ -502,37 +501,37 @@ export default Header;
 }
 {
 	/* <div class="md:hidden" id="mobile-menu">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-          <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
-          <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
-          <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-          <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
-          <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Reports</a>
-        </div>
-        <div class="pt-4 pb-3 border-t border-gray-700">
-          <div class="flex items-center px-5">
-            <div class="flex-shrink-0">
-              <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-            </div>
-            <div class="ml-3">
-              <div class="text-base font-medium leading-none text-white">Tom Cook</div>
-              <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
-            </div>
-            <button type="button" class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-              <span class="sr-only">View notifications</span>
+		<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+		  <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
+		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
+		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
+		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
+		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Reports</a>
+		</div>
+		<div class="pt-4 pb-3 border-t border-gray-700">
+		  <div class="flex items-center px-5">
+			<div class="flex-shrink-0">
+			  <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
+			</div>
+			<div class="ml-3">
+			  <div class="text-base font-medium leading-none text-white">Tom Cook</div>
+			  <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
+			</div>
+			<button type="button" class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
+			  <span class="sr-only">View notifications</span>
 
-              <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-              </svg>
-            </button>
-          </div>
-          <div class="mt-3 px-2 space-y-1">
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Your Profile</a>
+			  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
+			  </svg>
+			</button>
+		  </div>
+		  <div class="mt-3 px-2 space-y-1">
+			<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Your Profile</a>
 
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Settings</a>
+			<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Settings</a>
 
-            <a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Sign out</a>
-          </div>
-        </div>
-      </div> */
+			<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Sign out</a>
+		  </div>
+		</div>
+	  </div> */
 }
