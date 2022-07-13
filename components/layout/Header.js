@@ -10,6 +10,10 @@ import { listState } from "../../atoms/style";
 import { loginModalState } from "../../atoms/style";
 import { searchFilterState } from "../../atoms/search";
 
+import { useSession, signIn, signOut } from "next-auth/react";
+
+
+
 import {
 	Menu,
 	Transition,
@@ -136,6 +140,12 @@ function IconThree() {
 }
 
 const Header = () => {
+    
+    const { data: session, status } = useSession();
+
+    console.log(session);
+    console.log(status);
+
 	const router = useRouter();
 
 	const { theme, setTheme } = useTheme();
@@ -191,7 +201,7 @@ const Header = () => {
 					<div class="flex items-center justify-between h-16">
 						{/* left icon */}
 						<div class="flex items-center">
-							<div class="hidden md:block sm:ml-12 lg:ml-1">
+							<div class="ml-5 sm:ml-12 lg:ml-2">
 								<a href="/">
 									{/* Logo */}
 									<svg
@@ -213,19 +223,31 @@ const Header = () => {
 						</div>
 
 						{/* right icon */}
-						<div class="hidden md:flex">
+						<div class="flex">
+							{/* Login */}
 							<div>
-								<button
-									onClick={() =>
-										setIsLoginModalOpen(!isLoginModalOpen)
-									}
-									type="button"
-									class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
-								>
-									Login
-								</button>
-							</div>
 
+								{session ? (
+									<button
+										onClick={() => signOut()}
+										type="button"
+										class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
+									>
+										Logout
+									</button>
+								) : (
+									<button
+										onClick={() => signIn()}
+										type="button"
+										class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
+									>
+										Login
+									</button>
+								)}
+
+
+							</div>
+							{/* 글쓰기 */}
 							<div class="ml-4 flex items-center md:ml-2">
 								<button
 									type="button"
@@ -234,40 +256,70 @@ const Header = () => {
 									<Link href={"/write"}>글쓰기</Link>
 								</button>
 							</div>
-
-							{/* <div class="ml-4 flex items-center md:ml-6">
-                                <button>
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                    </svg>
-                                </button>
-                            </div>
-
-                            <div class="ml-4 flex items-center md:ml-6">
-
-
-                                {theme === 'light' || theme === undefined ?
-                                    <button onClick={() => setTheme('dark')}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z" />
-                                        </svg>
-                                    </button> :
-                                    <button onClick={() => setTheme('light')}>
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z" />
-                                        </svg>
-                                    </button>
-                                }
-
-
-                            </div> */}
+							{/* 검색 */}
+							<div class="ml-4 flex items-center md:ml-6">
+								<button>
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-6 w-6"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+										stroke-width="2"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+										/>
+									</svg>
+								</button>
+							</div>
+							{/* 다크모드 */}
+							<div class="ml-4 flex items-center md:ml-6">
+								{theme === "light" || theme === undefined ? (
+									<button onClick={() => setTheme("dark")}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-6 w-6"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											strokeWidth="2"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"
+											/>
+										</svg>
+									</button>
+								) : (
+									<button onClick={() => setTheme("light")}>
+										<svg
+											xmlns="http://www.w3.org/2000/svg"
+											class="h-6 w-6"
+											fill="none"
+											viewBox="0 0 24 24"
+											stroke="currentColor"
+											strokeWidth="2"
+										>
+											<path
+												strokeLinecap="round"
+												strokeLinejoin="round"
+												d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"
+											/>
+										</svg>
+									</button>
+								)}
+							</div>
 						</div>
 					</div>
 
 					{/* Nav */}
-					<nav class="flex items-center justify-between">
+					<nav class="flex flex-col sm:flex-row sm:items-center justify-between">
+						{/* Menu */}
 						<div class="py-3 px-6 sm:px-12 lg:px-0">
-							{/* <h1 class="text-3xl font-bold text-gray-900">Dashboard</h1> */}
 							<div class="max-w-7xl mx-auto flex items-baseline space-x-4">
 								<a
 									href="/"
@@ -288,9 +340,9 @@ const Header = () => {
 											: null
 									}`}
 								>
-									New
+									Bookmark
 								</a>
-								<a
+								{/* <a
 									href="/search"
 									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${
 										router.asPath === "/search"
@@ -299,19 +351,20 @@ const Header = () => {
 									}`}
 								>
 									Search
-								</a>
+								</a> */}
 								{/* <CompanySelectBox/> */}
 							</div>
 						</div>
 
-						<div class="flex items-baseline sm:px-11 lg:px-0">
+						{/* Filter */}
+						<div class="flex items-baseline sm:px-11 lg:px-0 ml-5 pb-4 sm:pb-0">
 							<div className="">
 								<div className="mr-2 border rounded-md">
 									<Disclosure as="div" className="mt-2">
 										{({ open }) => (
 											<>
 												<Disclosure.Button className="flex justify-between w-full px-5 pb-2 text-left rounded-lg">
-													<span className="mr-2 text-sm text-gray-600">
+													<span className="mr-2 text-sm text-gray-600 dark:text-white">
 														Company
 													</span>
 													<ChevronDownIcon
@@ -322,8 +375,8 @@ const Header = () => {
 														} h-5 w-5`}
 													/>
 												</Disclosure.Button>
-												<Disclosure.Panel className="absolute z-40 p-2 mt-2 bg-white border rounded-md top-30">
-													<div className="grid gap-4 p-3 bg-white elative lg:grid-cols-3">
+												<Disclosure.Panel className="absolute z-40 p-2 mt-2 bg-white border rounded-md dark:bg-black top-30">
+													<div className="grid gap-4 p-3 bg-white dark:bg-black elative lg:grid-cols-3">
 														{companys.map(
 															(company) => (
 																<div>
@@ -331,7 +384,7 @@ const Header = () => {
 																		onChange={
 																			handleCompanyCheckbox
 																		}
-																		class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-gray-600 checked:border-gray-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+																		class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white dark:bg-black dark:checked:bg-gray-600  checked:bg-gray-600 checked:border-gray-600 transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
 																		type="checkbox"
 																		value={
 																			company.value
@@ -359,7 +412,7 @@ const Header = () => {
 									onChange={handleKeywordChange}
 									type="search"
 									id="default-search"
-									class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
+									class="block w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-gray-500 dark:focus:border-gray-500"
 									placeholder="키워드를 입력해 주세요"
 									required=""
 								/>

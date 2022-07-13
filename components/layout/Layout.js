@@ -13,7 +13,7 @@ const Layout = (props) => {
 		<div class="min-h-full dark:bg-black">
 			<Header />
 			{/* <Nav /> */}
-			<div class="pt-[10vh]">
+			<div class="pt-[16vh] sm:pt-[10vh]">
 				{props.children}
 				{isLoginModalOpen ? <Login /> : null}
 			</div>
