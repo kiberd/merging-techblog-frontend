@@ -16,7 +16,6 @@ const nextConfig = {
         // } else {
         //     return [];
         // }
-
         return [
             {
                 destination: process.env.DESTINATION_URL,
