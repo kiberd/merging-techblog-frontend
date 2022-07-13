@@ -13,6 +13,8 @@ const nextConfig = {
                     source: process.env.SOURCE_PATH,
                 },
             ];
+        } else {
+            return [];
         }
     },
 };
