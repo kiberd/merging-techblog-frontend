@@ -1,5 +1,6 @@
 import axios from "axios";
 
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 export const getFakePost = async (limit) => {
 
@@ -10,7 +11,7 @@ export const getFakePost = async (limit) => {
 
 export const getPost = async (offset) => {
 
-    const { data } = await axios(`/view/${offset}/10`);
+    const { data } = await axios(BASE_URL + `/view/${offset}/10`);
 
     return data;
 };
