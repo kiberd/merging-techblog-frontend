@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SquarePost from "./SquarePost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
-import { getMorePost, getPost } from "../../api/posts";
+import { getPost, getEntirePost } from "../../api/posts";
 
 import { useQuery } from "react-query";
 
@@ -28,6 +28,16 @@ const SquarePostList = () => {
 	} = useQuery("getPost", () => getPost(posts.length), {
 		enabled: true,
 	});
+    
+	const {
+		data: entireData,
+	} = useQuery("getEntirePost", () => getEntirePost(posts.length), {
+		enabled: true,
+	});
+
+    
+
+
 
 	useEffect(() => {
 		if (posts && postData) {

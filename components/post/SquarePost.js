@@ -17,6 +17,8 @@ const logoUrl = (companyId) => {
 
 const Post = ({ data }) => {
 
+    // console.log(data);
+
     const [tagList, setTagList] = useState();
     const [openTagList, setOpenTagList] = useState(false);
 

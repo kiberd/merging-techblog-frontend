@@ -1,57 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useTheme } from "next-themes";
 
-import Login from "../common/Login";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
-import { useRecoilState, useSetRecoilState } from "recoil";
-import { listState } from "../../atoms/style";
+import { useRecoilState } from "recoil";
+
 import { loginModalState } from "../../atoms/style";
 import { searchFilterState } from "../../atoms/search";
 
-import { useSession, signIn, signOut } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 
+import { getUser, addUser } from "../../api/user";
+import { useQuery } from "react-query";
 
-
-import {
-	Menu,
-	Transition,
-	Listbox,
-	Popover,
-	Disclosure,
-} from "@headlessui/react";
-import {
-	CheckIcon,
-	ChevronDownIcon,
-	ChevronUpIcon,
-} from "@heroicons/react/solid";
-
-const unit = [
-	{ name: "1일", value: "days" },
-	{ name: "1주", value: "weeks" },
-];
-
-const solutions = [
-	{
-		name: "Insights",
-		description: "Measure actions",
-		href: "##",
-		icon: IconOne,
-	},
-	{
-		name: "Automations",
-		description: "targeted content",
-		href: "##",
-		icon: IconTwo,
-	},
-	{
-		name: "Reports",
-		description: "Keep track of your growth",
-		href: "##",
-		icon: IconThree,
-	},
-];
+import { Disclosure } from "@headlessui/react";
+import { ChevronDownIcon } from "@heroicons/react/solid";
 
 const companys = [
 	{ name: "라인", value: 1 },
@@ -60,97 +24,38 @@ const companys = [
 	// { name: "뱅크샐러드", value: "banksalad" }
 ];
 
-function IconOne() {
-	return (
-		<svg
-			width="48"
-			height="48"
-			viewBox="0 0 48 48"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<rect width="48" height="48" rx="8" fill="#FFEDD5" />
-			<path
-				d="M24 11L35.2583 17.5V30.5L24 37L12.7417 30.5V17.5L24 11Z"
-				stroke="#FB923C"
-				strokeWidth="2"
-			/>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M16.7417 19.8094V28.1906L24 32.3812L31.2584 28.1906V19.8094L24 15.6188L16.7417 19.8094Z"
-				stroke="#FDBA74"
-				strokeWidth="2"
-			/>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M20.7417 22.1196V25.882L24 27.7632L27.2584 25.882V22.1196L24 20.2384L20.7417 22.1196Z"
-				stroke="#FDBA74"
-				strokeWidth="2"
-			/>
-		</svg>
-	);
-}
-
-function IconTwo() {
-	return (
-		<svg
-			width="48"
-			height="48"
-			viewBox="0 0 48 48"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<rect width="48" height="48" rx="8" fill="#FFEDD5" />
-			<path
-				d="M28.0413 20L23.9998 13L19.9585 20M32.0828 27.0001L36.1242 34H28.0415M19.9585 34H11.8755L15.9171 27"
-				stroke="#FB923C"
-				strokeWidth="2"
-			/>
-			<path
-				fillRule="evenodd"
-				clipRule="evenodd"
-				d="M18.804 30H29.1963L24.0001 21L18.804 30Z"
-				stroke="#FDBA74"
-				strokeWidth="2"
-			/>
-		</svg>
-	);
-}
-
-function IconThree() {
-	return (
-		<svg
-			width="48"
-			height="48"
-			viewBox="0 0 48 48"
-			fill="none"
-			xmlns="http://www.w3.org/2000/svg"
-		>
-			<rect width="48" height="48" rx="8" fill="#FFEDD5" />
-			<rect x="13" y="32" width="2" height="4" fill="#FDBA74" />
-			<rect x="17" y="28" width="2" height="8" fill="#FDBA74" />
-			<rect x="21" y="24" width="2" height="12" fill="#FDBA74" />
-			<rect x="25" y="20" width="2" height="16" fill="#FDBA74" />
-			<rect x="29" y="16" width="2" height="20" fill="#FB923C" />
-			<rect x="33" y="12" width="2" height="24" fill="#FB923C" />
-		</svg>
-	);
-}
-
 const Header = () => {
-
 	const { data: session, status } = useSession();
+
+	const { data: userData, refetch: fecthUserData } = useQuery(
+		"getUser",
+		() => getUser(session?.user?.email),
+		{
+			enabled: false,
+		}
+	);
+
+	const { data: addData, refetch: addUserData } = useQuery(
+		"addUser",
+		() => addUser(session?.user),
+		{
+			enabled: false,
+		}
+	);
+
+	useEffect(() => {
+		if (session) fecthUserData();
+	}, [session]);
+
+	useEffect(() => {
+		if (userData?.user?.length === 0) addUserData();
+	}, [userData]);
 
 	const router = useRouter();
 
 	const { theme, setTheme } = useTheme();
 	const [isLoginModalOpen, setIsLoginModalOpen] =
 		useRecoilState(loginModalState);
-
-	const [selected, setSelected] = useState(unit[0]);
-	const [isList, setIsList] = useRecoilState(listState);
 
 	const [filterState, setFilterState] = useRecoilState(searchFilterState);
 
@@ -221,9 +126,8 @@ const Header = () => {
 
 						{/* right icon */}
 						<div class="flex">
-
 							{/* 글쓰기 */}
-							{session ?
+							{session ? (
 								<div class="lex items-center md:ml-2">
 									<button
 										type="button"
@@ -231,7 +135,8 @@ const Header = () => {
 									>
 										<Link href={"/write"}>글쓰기</Link>
 									</button>
-								</div> : null}
+								</div>
+							) : null}
 
 							{/* Login */}
 							<div class="ml-4">
@@ -245,7 +150,9 @@ const Header = () => {
 									</button>
 								) : (
 									<button
-										onClick={() => setIsLoginModalOpen(true)}
+										onClick={() =>
+											setIsLoginModalOpen(true)
+										}
 										type="button"
 										class="inline-flex items-center px-3 py-1 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-100 dark:bg-transparent dark:text-white"
 									>
@@ -253,7 +160,6 @@ const Header = () => {
 									</button>
 								)}
 							</div>
-
 
 							{/* 검색 */}
 							<div class="ml-4 flex items-center md:ml-6">
@@ -264,11 +170,11 @@ const Header = () => {
 										fill="none"
 										viewBox="0 0 24 24"
 										stroke="currentColor"
-										stroke-width="2"
+										strokeWidth="2"
 									>
 										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
+											strokeLinecap="round"
+											strokeLinejoin="round"
 											d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
 										/>
 									</svg>
@@ -322,25 +228,27 @@ const Header = () => {
 							<div class="max-w-7xl mx-auto flex items-baseline space-x-4">
 								<a
 									href="/"
-									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium  ${router.asPath === "/"
-										? "border-b-2 border-gray-400"
-										: null
-										}`}
+									class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium  ${
+										router.asPath === "/"
+											? "border-b-2 border-gray-400"
+											: null
+									}`}
 									aria-current="page"
 								>
 									Tranding
 								</a>
-								{session ?
+								{true ? (
 									<a
-										href="/new"
-										class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === "/new"
-											? "border-b-2 border-gray-400"
-											: null
-											}`}
+										href="/bookmark"
+										class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${
+											router.asPath === "/bookmark"
+												? "border-b-2 border-gray-400"
+												: null
+										}`}
 									>
 										Bookmark
 									</a>
-									: null}
+								) : null}
 
 								{/* <a
 									href="/search"
@@ -368,10 +276,11 @@ const Header = () => {
 														Company
 													</span>
 													<ChevronDownIcon
-														className={`${open
-															? "rotate-180 transform"
-															: ""
-															} h-5 w-5`}
+														className={`${
+															open
+																? "rotate-180 transform"
+																: ""
+														} h-5 w-5`}
 													/>
 												</Disclosure.Button>
 												<Disclosure.Panel className="absolute z-40 p-2 mt-2 bg-white border rounded-md dark:bg-black top-30">
@@ -416,76 +325,6 @@ const Header = () => {
 									required=""
 								/>
 							</div>
-
-							{/* <div class="mr-2 cursor-pointer" onClick={() => setIsList(true)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16" />
-                        </svg>
-                    </div>
-
-                    <div class="cursor-pointer" onClick={() => setIsList(false)}>
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                        </svg>
-                    </div> */}
-
-							{/* <Listbox value={selected} onChange={(e) => handleSelected(e)} class="border-black p-1 rounded-md mt-3">
-                        <div className="relative mt-3 border-black">
-                            <Listbox.Button className="relative w-full pl-3 pr-10 text-left bg-white cursor-pointer focus:outline-none focus-visible:border-indigo-500 focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-orange-300 sm:text-sm">
-                                <span className="justify-center block text-center">
-                                    {selected.name}
-                                </span>
-                                <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                                    <ChevronDownIcon
-                                        className="w-5 h-5 text-gray-400"
-                                        aria-hidden="true"
-                                    />
-                                </span>
-                            </Listbox.Button>
-
-                            <Transition
-                                as={Fragment}
-                                leave="transition ease-in duration-100"
-                                leaveFrom="opacity-100"
-                                leaveTo="opacity-0"
-                            >
-                                <Listbox.Options className="absolute w-full py-2 mt-3 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-                                    {unit.map((person, index) => (
-                                        <Listbox.Option
-                                            key={index}
-                                            className={({ active }) =>
-                                                `relative cursor-default select-none py-2 pr-4 ${active
-                                                    ? "bg-amber-100 text-amber-900"
-                                                    : "text-gray-900"
-                                                }`
-                                            }
-                                            value={person}
-                                        >
-                                            {({ selected }) => (
-                                                <>
-                                                    <span
-                                                        className={`block truncate text-center ${selected ? "font-medium" : "font-normal"
-                                                            } `}
-                                                    >
-                                                        {person.name}
-                                                    </span>
-                                                    {selected ? (
-                                                        <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-amber-600">
-                                                            <CheckIcon
-                                                                className="w-5 h-5"
-                                                                aria-hidden="true"
-                                                            />
-                                                        </span>
-                                                    ) : null}
-                                                </>
-                                            )}
-                                        </Listbox.Option>
-
-                                    ))}
-                                </Listbox.Options>
-                            </Transition>
-                        </div>
-                    </Listbox> */}
 						</div>
 					</nav>
 				</div>
@@ -495,43 +334,3 @@ const Header = () => {
 };
 
 export default Header;
-
-{
-	/* mobile nav */
-}
-{
-	/* <div class="md:hidden" id="mobile-menu">
-		<div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
-		  <a href="#" class="bg-gray-900 text-white block px-3 py-2 rounded-md text-base font-medium" aria-current="page">Dashboard</a>
-		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Team</a>
-		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Projects</a>
-		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Calendar</a>
-		  <a href="#" class="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Reports</a>
-		</div>
-		<div class="pt-4 pb-3 border-t border-gray-700">
-		  <div class="flex items-center px-5">
-			<div class="flex-shrink-0">
-			  <img class="h-10 w-10 rounded-full" src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80" alt="" />
-			</div>
-			<div class="ml-3">
-			  <div class="text-base font-medium leading-none text-white">Tom Cook</div>
-			  <div class="text-sm font-medium leading-none text-gray-400">tom@example.com</div>
-			</div>
-			<button type="button" class="ml-auto bg-gray-800 flex-shrink-0 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white">
-			  <span class="sr-only">View notifications</span>
-
-			  <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-			  </svg>
-			</button>
-		  </div>
-		  <div class="mt-3 px-2 space-y-1">
-			<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Your Profile</a>
-
-			<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Settings</a>
-
-			<a href="#" class="block px-3 py-2 rounded-md text-base font-medium text-gray-400 hover:text-white hover:bg-gray-700">Sign out</a>
-		  </div>
-		</div>
-	  </div> */
-}
