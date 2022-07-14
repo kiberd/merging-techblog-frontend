@@ -8,6 +8,7 @@ export const addUser = async (user) => {
 	return data;
 };
 
+
 export const getUser = async (email) => {
 	const { data } = await axios.post(`/api/user/read`, {
 		email: email,
