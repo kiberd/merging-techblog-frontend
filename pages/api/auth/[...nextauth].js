@@ -1,5 +1,6 @@
 import NextAuth from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
+import GitHubProvider from "next-auth/providers/github"
 import { FirestoreAdapter } from "@next-auth/firebase-adapter"
 
 // For more information on each option (and a full list of options) go to
@@ -12,6 +13,10 @@ export default NextAuth({
       clientSecret: process.env.GOOGLE_SECRET,
       scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/youtube.readonly',
     }),
+    GitHubProvider({
+      clientId: process.env.GITHUB_ID,
+      clientSecret: process.env.GITHUB_SECRET
+    })
   ],
   // adapter: FirestoreAdapter({
   //   apiKey: process.env.FIREBASE_API_KEY,
