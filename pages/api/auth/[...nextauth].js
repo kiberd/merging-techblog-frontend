@@ -7,6 +7,7 @@ import { FirestoreAdapter } from "@next-auth/firebase-adapter"
 // https://next-auth.js.org/configuration/options
 export default NextAuth({
   // https://next-auth.js.org/providers/overview
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_ID,
