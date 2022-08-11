@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SquarePost from "./SquarePost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
-import { getPost, getEntirePost } from "../../api/posts";
+import { getPost, getEntirePost } from "../../apis/posts";
 
 import { useQuery } from "react-query";
 

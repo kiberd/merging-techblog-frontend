@@ -8,12 +8,9 @@ import RectanglePostList from '../components/post/RectanglePostList'
 import { listState } from '../atoms/style';
 import { useRecoilState } from 'recoil';
 
-import { getPost } from '../api/posts';
-
 
 export default function Home() {
 
-  const [isList, setIsList] = useRecoilState(listState);
   
   return (
     <>
@@ -29,7 +26,6 @@ export default function Home() {
           <div class="px-4 py-2 sm:px-0 bg-white dark:bg-black">
             <div class="h-100">
               <SquarePostList />
-              {/* {isList ? <RectanglePostList data={props.data}/> : <SquarePostList data={props.data}/>} */}
             </div>
           </div>
         </div>

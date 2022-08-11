@@ -11,7 +11,7 @@ import { searchFilterState } from "../../atoms/search";
 
 import { useSession, signOut } from "next-auth/react";
 
-import { getUser, addUser } from "../../api/user";
+import { getUser, addUser } from "../../apis/user";
 import { useQuery } from "react-query";
 
 import { Disclosure } from "@headlessui/react";
