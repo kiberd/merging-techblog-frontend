@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useQuery } from 'react-query';
-import { getBookmarkPost } from "../../api/posts";
+import { getBookmarkPost } from "../../apis/posts";
 
 const BookmarkPostList = () => {
 

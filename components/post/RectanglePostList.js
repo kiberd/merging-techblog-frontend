@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import RectanglePost from './RectanglePost';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import axios from 'axios';
-import { getMorePost } from '../../api/posts';
+import { getMorePost } from '../../apis/posts';
 
 
 const RectanglePostList = ({ data }) => {
