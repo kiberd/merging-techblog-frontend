@@ -7,14 +7,14 @@ import { useRecoilValue } from "recoil";
 import { loginModalState } from "../../atoms/style";
 
 const Layout = (props) => {
-	
+
 	const isLoginModalOpen = useRecoilValue(loginModalState);
 
 	return (
-		<div class="min-h-full dark:bg-black">
+		<div className="min-h-full dark:bg-black">
 			<Header />
 			{/* <Nav /> */}
-			<div class="pt-[16vh] sm:pt-[10vh]">
+			<div className="pt-[25vh] sm:pt-[13vh]">
 				{props.children}
 				{isLoginModalOpen ? <Login /> : null}
 			</div>

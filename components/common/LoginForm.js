@@ -37,11 +37,11 @@ const LoginForm = () => {
                 <div class="flex flex-col mt-10">
 
 
-                    <button onClick={() => signIn("google")} type="submit" class="m-2 w-full flex justify-center py-2 px-4 border text-sm font-medium border-gray-300 rounded-md  dark:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button onClick={() => signIn("google")} type="submit" class="m-2 w-full flex justify-center py-2 px-4 border text-sm font-medium border-gray-300 rounded-md  dark:bg-slate-500">
                         <img class="w-4 h-4 mr-2 mt-[0.1rem]" src="/google_logo.png" /> Google Login
                     </button>
 
-                    <button onClick={() => signIn("github")} type="submit" class="m-2 w-full flex justify-center py-2 px-4 border text-sm font-medium border-gray-300 rounded-md  dark:bg-slate-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    <button onClick={() => signIn("github")} type="submit" class="m-2 w-full flex justify-center py-2 px-4 border text-sm font-medium border-gray-300 rounded-md  dark:bg-slate-500">
                         <img class="w-4 h-4 mr-2 mt-[0.1rem]" src="/github_logo.png" />Github Login
                     </button>
 

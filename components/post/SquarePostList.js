@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import SquarePost from "./SquarePost";
 import InfiniteScroll from "react-infinite-scroll-component";
 import axios from "axios";
-import { getPost, getEntirePost } from "../../apis/posts";
+import { getPost } from "../../apis/posts";
 
 import { useQuery } from "react-query";
 
@@ -29,14 +29,6 @@ const SquarePostList = () => {
 		enabled: true,
 	});
     
-	const {
-		data: entireData,
-	} = useQuery("getEntirePost", () => getEntirePost(posts.length), {
-		enabled: true,
-	});
-
-    
-
 
 
 	useEffect(() => {
@@ -89,15 +81,15 @@ const SquarePostList = () => {
 					// loader={<h3> Loading...</h3>}
 					// endMessage={<h4>Nothing more to show</h4>}
 				>
-					<div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+					<div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 p-3">
 						{
 							filterData
-								? filterData.map((data) => (
-										<SquarePost data={data} />
+								? filterData.map((data, index) => (
+										<SquarePost key={index} data={data} />
 								  ))
 								: posts &&
-								  posts.map((data) => (
-										<SquarePost data={data} />
+								  posts.map((data, index) => (
+										<SquarePost key={index} data={data} />
 								  ))
 						}
 					</div>
