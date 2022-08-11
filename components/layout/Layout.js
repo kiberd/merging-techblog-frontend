@@ -7,6 +7,7 @@ import { useRecoilValue } from "recoil";
 import { loginModalState } from "../../atoms/style";
 
 const Layout = (props) => {
+	
 	const isLoginModalOpen = useRecoilValue(loginModalState);
 
 	return (
