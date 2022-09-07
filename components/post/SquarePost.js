@@ -50,9 +50,12 @@ const SquarePost = ({ data }) => {
 
     const checkBookmark = async (postId) =>{
 
+        console.log(user);
         
         if (user){
             const dbUser = await getUser(user?.info?.email);
+
+            console.log(dbUser);
 
             if (dbUser[0]?.bookmarks.includes(postId)) {
                 setIsBookmark(true);
