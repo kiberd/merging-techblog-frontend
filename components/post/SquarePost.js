@@ -71,6 +71,8 @@ const SquarePost = ({ data }) => {
 
     const handleBookmark = async (e) => {
         e.preventDefault();
+
+        setIsBookmark(!isBookmark);
         
         const postId = data.postId;
 
@@ -96,7 +98,7 @@ const SquarePost = ({ data }) => {
         const updateResult = await updateUser(newUserInfo);
 
         // 그 다음 북마크 리스트 필터링 -> checkBookmark
-        checkBookmark(postId);
+        // checkBookmark(postId);
 
     };
 
