@@ -9,7 +9,7 @@ export default async function readUser(req, res) {
 
 		const user = await UserModel.find().where("email").in(email);
 
-		res.json({ user });
+		res.json(user);
 	} catch (error) {
 		res.json({ error });
 	}

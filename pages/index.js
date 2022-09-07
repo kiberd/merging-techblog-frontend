@@ -3,11 +3,6 @@ import Head from 'next/head';
 
 import Layout from '../components/layout/Layout';
 import SquarePostList from '../components/post/SquarePostList'
-import RectanglePostList from '../components/post/RectanglePostList'
-
-import { listState } from '../atoms/style';
-import { useRecoilState } from 'recoil';
-
 
 export default function Home() {
 
@@ -37,14 +32,3 @@ export default function Home() {
 
   )
 }
-
-// export const getStaticProps = async () => {
-  
-//   const data = await getPost(0);
-//   console.log(data);
-
-//   return {
-//     props: { data }
-//   }
-// };
-

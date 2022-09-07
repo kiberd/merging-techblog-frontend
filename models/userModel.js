@@ -9,7 +9,10 @@ const userSchema = new Schema({
   name: {
     type: String,
     required: true,
- },
+  },
+  image: {
+    type: String,
+  },
   bookmarks: [String]
 });
 

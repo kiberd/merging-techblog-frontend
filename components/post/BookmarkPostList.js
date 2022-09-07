@@ -10,8 +10,13 @@ const BookmarkPostList = () => {
 		data: bookmarkData,
         refetch: reFetchBookmarkPost,
 	} = useQuery("getBookmarkPost", () => getBookmarkPost(postList), {
-		enabled: true,
+		enabled: false,
 	});
+
+    useEffect(() => {
+
+        console.log(bookmarkData);
+    } ,[bookmarkData])
 
     return (
         <div>

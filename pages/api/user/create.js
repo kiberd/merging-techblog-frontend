@@ -7,7 +7,7 @@ export default async function createUser(req, res) {
 
 		const user = await UserModel.create(req.body.user);
 
-		res.json({ user });
+		res.json( user );
 	} catch (error) {
 		res.json({ error });
 	}

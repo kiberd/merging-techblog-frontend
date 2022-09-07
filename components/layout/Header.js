@@ -12,7 +12,7 @@ import { userState } from "../../atoms/auth";
 
 import { useSession, signOut } from "next-auth/react";
 
-// import { getUser, addUser } from "../../apis/user";
+import { getUser, addUser } from "../../apis/user";
 import { useQuery } from "react-query";
 
 import { Disclosure } from "@headlessui/react";
@@ -22,7 +22,6 @@ const companys = [
 	{ name: "라인", value: 1 },
 	{ name: "카카오", value: 2 },
 	{ name: "우아한형제들", value: 3 },
-	// { name: "뱅크샐러드", value: "banksalad" }
 ];
 
 const Header = () => {
@@ -33,10 +32,12 @@ const Header = () => {
 	useEffect(() => {
 
 		if (session) {
+
 			const newUserInfo = {
 				name: session.user.name,
 				email: session.user.email,
-				image: session.user.image
+				image: session.user.image,
+				bookmarkList: user.info.bookmarkList
 			};
 
 			setUser({ ...user, isLogin: true, info: newUserInfo });
@@ -44,29 +45,20 @@ const Header = () => {
 
 	}, [session]);
 
-	// const { data: userData, refetch: fecthUserData } = useQuery(
-	// 	"getUser",
-	// 	() => getUser(session?.user?.email),
-	// 	{
-	// 		enabled: false,
-	// 	}
-	// );
 
-	// const { data: addData, refetch: addUserData } = useQuery(
-	// 	"addUser",
-	// 	() => addUser(session?.user),
-	// 	{
-	// 		enabled: false,
-	// 	}
-	// );
+	useEffect(() => {
 
-	// useEffect(() => {
-	// 	if (session) fecthUserData();
-	// }, [session]);
+		async function setDbUser() {
+			const dbUser = await getUser(user.info.email);
+			if (dbUser.length === 0) await addUser(user.info);
+		}
 
-	// useEffect(() => {
-	// 	if (userData?.user?.length === 0) addUserData();
-	// }, [userData]);
+		if (user.isLogin) setDbUser();
+
+	}, [user]);
+
+
+
 
 	const router = useRouter();
 
@@ -198,12 +190,8 @@ const Header = () => {
 								)}
 							</div>
 
-
-
-
-
 							{/* 검색 */}
-							<div class="ml-4 flex items-center md:ml-6">
+							{/* <div class="ml-4 flex items-center md:ml-6">
 								<button>
 									<svg
 										xmlns="http://www.w3.org/2000/svg"
@@ -220,7 +208,7 @@ const Header = () => {
 										/>
 									</svg>
 								</button>
-							</div>
+							</div> */}
 							{/* 다크모드 */}
 							<div class="ml-4 flex items-center md:ml-6">
 								{theme === "light" || theme === undefined ? (
@@ -263,19 +251,19 @@ const Header = () => {
 					</div>
 
 					<div className="flex justify-start ml-6 sm:hidden">
-					{ session && session.user ?
-					<div className="flex">
-										<div className="flex items-center">
-											<img src={session.user.image} className="w-5 h-5" />
+						{session && session.user ?
+							<div className="flex">
+								<div className="flex items-center">
+									<img src={session.user.image} className="w-5 h-5" />
 
-										</div>
+								</div>
 
-										<div className="flex flex-col ml-4">
-											<span className="text-xs">{session.user.name}</span>
-											<span className="text-xs text-gray-500">{session.user.email}</span>
-										</div>
+								<div className="flex flex-col ml-4">
+									<span className="text-xs">{session.user.name}</span>
+									<span className="text-xs text-gray-500">{session.user.email}</span>
+								</div>
 
-									</div>  : null}
+							</div> : null}
 					</div>
 
 					{/* Nav */}

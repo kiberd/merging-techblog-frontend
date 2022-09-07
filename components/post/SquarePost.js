@@ -7,6 +7,8 @@ import { userState } from "../../atoms/auth";
 import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/outline";
 import { BookmarkIcon as SolidBookmarkIcon } from '@heroicons/react/solid';
 
+import { getUser, updateUser } from "../../apis/user";
+
 const logoUrl = (companyId) => {
 
     switch (companyId) {
@@ -33,9 +35,9 @@ const SquarePost = ({ data }) => {
 
     useEffect(() => {
 
-
         const postId = data.postId;
-        if (user.info?.bookmarkList?.includes(postId)) setIsBookmark(true);
+
+        if (user.isLogin) checkBookmark(postId);
 
         const arrDup = data.tagList;
         const arrUnique = arrDup.filter((tagObj, index, arr) => {
@@ -46,45 +48,57 @@ const SquarePost = ({ data }) => {
 
     }, [data]);
 
-    useEffect(() => {
+    const checkBookmark = async (postId) =>{
 
-        const postId = data.postId;
-        if (user.info?.bookmarkList?.includes(postId)) {
-            setIsBookmark(true);
-        } else {
-            setIsBookmark(false);
+        
+        if (user){
+            const dbUser = await getUser(user?.info?.email);
+
+            if (dbUser[0]?.bookmarks.includes(postId)) {
+                setIsBookmark(true);
+            } else {
+                setIsBookmark(false);
+            }
         }
+        
+    }
 
-    } ,[user]);
-
+    
     const handleTagListClick = (e) => {
         e.preventDefault();
         setOpenTagList(!openTagList);
     }
 
-    const handleBookmark = (e) => {
+    const handleBookmark = async (e) => {
         e.preventDefault();
         
         const postId = data.postId;
 
         let newBookmarkList;
 
-        if (user.info?.bookmarkList?.includes(postId)) {
-            newBookmarkList = user.info.bookmarkList.filter((id) => id !== postId);
+        // 서버에 있는 bookmarkList 가져와서 정제과정 거친 후
+        const dbUser = await getUser(user?.info?.email);
+        const oldBookmarkList = dbUser[0].bookmarks;
+
+        if (oldBookmarkList.includes(postId)) {
+            newBookmarkList = oldBookmarkList.filter((id) => id !== postId);
         } else {
-            if (user?.info?.bookmarkList?.length > 0) {
-                newBookmarkList = [...user.info.bookmarkList, data.postId];
+            if (oldBookmarkList.length > 0) {
+                newBookmarkList = [...oldBookmarkList, data.postId];
             } else {
                 newBookmarkList = [data.postId];
             }
 
         };
 
-        const newInfo = {...user.info, bookmarkList: newBookmarkList};
-        
-        setUser({...user, info: newInfo});
-    }
+        // 서버에 저장
+        const newUserInfo = {...dbUser[0], bookmarkList: newBookmarkList};
+        const updateResult = await updateUser(newUserInfo);
 
+        // 그 다음 북마크 리스트 필터링 -> checkBookmark
+        checkBookmark(postId);
+
+    };
 
     return (
         <div class="bg-white dark:bg-black">
@@ -165,4 +179,4 @@ const SquarePost = ({ data }) => {
     );
 };
 
-export default SquarePost;
+export default React.memo(SquarePost);

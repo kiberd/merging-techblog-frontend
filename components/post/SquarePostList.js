@@ -6,16 +6,17 @@ import { getPost } from "../../apis/posts";
 
 import { useQuery } from "react-query";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { searchFilterState } from "../../atoms/search";
+import { userState } from "../../atoms/auth";
 
-const getDateObject = (dateArry) => {
-	return new Date(dateArry[0], dateArry[1] - 1, dateArry[2], 0, 0, 0, 0);
-};
+import { updateUser } from "../../apis/user";
 
 const SquarePostList = () => {
 	const [posts, setPosts] = useState([]);
 	const [filterData, setFilterData] = useState();
+
+	const [user, setUser] = useRecoilState(userState);
 
 	const filter = useRecoilValue(searchFilterState);
 
@@ -28,8 +29,6 @@ const SquarePostList = () => {
 	} = useQuery("getPost", () => getPost(posts.length), {
 		enabled: true,
 	});
-    
-
 
 	useEffect(() => {
 		if (posts && postData) {
@@ -78,19 +77,19 @@ const SquarePostList = () => {
 					next={fetchPost}
 					hasMore={true}
 					pullDownToRefreshThreshold={500}
-					// loader={<h3> Loading...</h3>}
-					// endMessage={<h4>Nothing more to show</h4>}
+				// loader={<h3> Loading...</h3>}
+				// endMessage={<h4>Nothing more to show</h4>}
 				>
 					<div class="grid grid-cols-1 gap-y-10 sm:grid-cols-2 gap-x-6 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8 p-3">
 						{
 							filterData
 								? filterData.map((data, index) => (
-										<SquarePost key={index} data={data} />
-								  ))
+									<SquarePost key={index} data={data} />
+								))
 								: posts &&
-								  posts.map((data, index) => (
-										<SquarePost key={index} data={data} />
-								  ))
+								posts.map((data, index) => (
+									<SquarePost key={index} data={data} />
+								))
 						}
 					</div>
 				</InfiniteScroll>

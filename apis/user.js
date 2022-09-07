@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const addUser = async (user) => {
-	const { data } = await axios.post(`/apis/user/create`, {
+	const { data } = await axios.post(`/api/user/create`, {
 		user: user,
 	});
 
@@ -10,10 +10,20 @@ export const addUser = async (user) => {
 
 
 export const getUser = async (email) => {
-	const { data } = await axios.post(`/apis/user/read`, {
+	const { data } = await axios.post(`/api/user/read`, {
 		email: email,
 	});
 
 	return data;
 };
 
+
+export const updateUser = async (user) => {
+
+	const { data } = await axios.post(`api/user/update`, {
+		user: user,
+	});
+
+	return data;
+
+}
