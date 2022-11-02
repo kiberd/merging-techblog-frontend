@@ -29,6 +29,7 @@ const SquarePost = ({ data }) => {
     const [tagList, setTagList] = useState();
     const [openTagList, setOpenTagList] = useState(false);
     const [user, setUser] = useRecoilState(userState);
+
     
     useEffect(() => {
         const arrDup = data.tagList;
@@ -51,24 +52,25 @@ const SquarePost = ({ data }) => {
         const postId = data.postId;
 
         let newBookmarkList;
-
-        // 서버에 있는 bookmarkList 가져와서 정제과정 거친 후
-        const dbUser = await getUser(user?.info?.email);
-        const oldBookmarkList = dbUser[0].bookmarks;
+        const oldBookmarkList = user.info.bookmarkList;
 
         if (oldBookmarkList.includes(postId)) {
             newBookmarkList = oldBookmarkList.filter((id) => id !== postId);
         } else {
             if (oldBookmarkList.length > 0) {
-                newBookmarkList = [...oldBookmarkList, data.postId];
+                newBookmarkList = [...oldBookmarkList, postId];
             } else {
-                newBookmarkList = [data.postId];
+                newBookmarkList = [postId];
             }
 
         };
 
         // server에 저장
-        const newUserInfo = { ...dbUser[0], bookmarkList: newBookmarkList };
+        const newUserInfo = {
+            email: user.info.email,
+            bookmarkList: newBookmarkList
+        }
+
         const updateResult = await updateUser(newUserInfo);
 
         // local에 저장
