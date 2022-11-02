@@ -13,7 +13,6 @@ import { userState } from "../../atoms/auth";
 import { useSession, signOut } from "next-auth/react";
 
 import { getUser, addUser } from "../../apis/user";
-import { useQuery } from "react-query";
 
 import { Disclosure } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/solid";
@@ -31,33 +30,30 @@ const Header = () => {
 
 	useEffect(() => {
 
-		if (session) {
+		async function setDbUser() {
+
+			const dbUser = await getUser(session.user.email);
 
 			const newUserInfo = {
 				name: session.user.name,
 				email: session.user.email,
 				image: session.user.image,
-				bookmarkList: user.info.bookmarkList
+				bookmarkList: []
 			};
+
+			// db에 해당하는 user 없으면 추가
+			if (dbUser.length === 0) {
+				await addUser(newUserInfo);
+			} else {
+				newUserInfo.bookmarkList = dbUser[0].bookmarks;
+			}
 
 			setUser({ ...user, isLogin: true, info: newUserInfo });
 		}
 
+		if (session) setDbUser();
+
 	}, [session]);
-
-
-	useEffect(() => {
-
-		async function setDbUser() {
-			const dbUser = await getUser(user.info.email);
-			if (dbUser.length === 0) await addUser(user.info);
-		}
-
-		if (user.isLogin) setDbUser();
-
-	}, [user]);
-
-
 
 
 	const router = useRouter();

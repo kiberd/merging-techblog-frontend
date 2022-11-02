@@ -26,19 +26,11 @@ const logoUrl = (companyId) => {
 
 const SquarePost = ({ data }) => {
 
-
     const [tagList, setTagList] = useState();
     const [openTagList, setOpenTagList] = useState(false);
-
     const [user, setUser] = useRecoilState(userState);
-    const [isBookmark, setIsBookmark] = useState(false)
-
+    
     useEffect(() => {
-
-        const postId = data.postId;
-
-        if (user.isLogin) checkBookmark(postId);
-
         const arrDup = data.tagList;
         const arrUnique = arrDup.filter((tagObj, index, arr) => {
             return arr.findIndex(item => item.tag === tagObj.tag && item.tagLink === tagObj.tagLink) === index
@@ -48,25 +40,6 @@ const SquarePost = ({ data }) => {
 
     }, [data]);
 
-    const checkBookmark = async (postId) =>{
-
-        console.log(user);
-        
-        if (user){
-            const dbUser = await getUser(user?.info?.email);
-
-            console.log(dbUser);
-
-            if (dbUser[0]?.bookmarks.includes(postId)) {
-                setIsBookmark(true);
-            } else {
-                setIsBookmark(false);
-            }
-        }
-        
-    }
-
-    
     const handleTagListClick = (e) => {
         e.preventDefault();
         setOpenTagList(!openTagList);
@@ -75,8 +48,6 @@ const SquarePost = ({ data }) => {
     const handleBookmark = async (e) => {
         e.preventDefault();
 
-        setIsBookmark(!isBookmark);
-        
         const postId = data.postId;
 
         let newBookmarkList;
@@ -96,12 +67,19 @@ const SquarePost = ({ data }) => {
 
         };
 
-        // 서버에 저장
-        const newUserInfo = {...dbUser[0], bookmarkList: newBookmarkList};
+        // server에 저장
+        const newUserInfo = { ...dbUser[0], bookmarkList: newBookmarkList };
         const updateResult = await updateUser(newUserInfo);
 
-        // 그 다음 북마크 리스트 필터링 -> checkBookmark
-        // checkBookmark(postId);
+        // local에 저장
+        const newLocalUserInfo = {
+            name: user.info.name,
+            email: user.info.email,
+            img: user.info.img,
+            bookmarkList: newBookmarkList
+        }
+
+        setUser({ ...user, info: newLocalUserInfo });
 
     };
 
@@ -117,12 +95,16 @@ const SquarePost = ({ data }) => {
                                 <img class="object-cover rounded-full block w-9 h-9 mr-2" src={logoUrl(data.companyId)} />
 
                                 {user.isLogin ?
-                                
-                                    isBookmark ? <SolidBookmarkIcon onClick={handleBookmark} className="w-5 h-5"/> : <OutlineBookmarkIcon onClick={handleBookmark} className="w-5 h-5" />
-                                
-                                : null}
-                                
-                                
+                                    user.info.bookmarkList.some((id) => id === data.postId) ? (
+                                        <SolidBookmarkIcon
+                                            onClick={handleBookmark} className="w-5 h-5"
+                                        />
+                                    ) : (
+                                        <OutlineBookmarkIcon
+                                            onClick={handleBookmark} className="w-5 h-5"
+                                        />
+                                    )
+                                    : null}
                             </div>
 
                             <h2 class="my-4 text-xl text-gray-800 dark:text-gray-300 line-clamp-2 min-h-[6vh]">{data.title}</h2>
