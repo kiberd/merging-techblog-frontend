@@ -29,12 +29,3 @@ const Bookmark = ({ data }) => {
 
 export default Bookmark;
 
-// export const getServerSideProps = async () => {
-
-// 	await connectMongo();
-// 	const posts = await Post.find({});
-
-// 	return {
-// 		props: { data: posts },
-// 	};
-// };

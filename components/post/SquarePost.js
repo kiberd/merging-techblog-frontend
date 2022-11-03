@@ -88,7 +88,6 @@ const SquarePost = ({ data }) => {
     return (
         <div class="bg-white dark:bg-black">
             <a href={`${data.link}`} target="_blank" class="group">
-                {/* <div class="transition ease-in-out group-hover:-translate-y-2 bg-slate-100  dark:bg-[#1E1E1E] rounded-md"> */}
                 <div class="bg-slate-100  dark:bg-[#1E1E1E] rounded-md">
                     <div class="flex-col p-1">
                         <div class="block p-2">

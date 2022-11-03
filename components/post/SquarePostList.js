@@ -1,16 +1,12 @@
 import React, { useState, useEffect } from "react";
 import SquarePost from "./SquarePost";
 import InfiniteScroll from "react-infinite-scroll-component";
-import axios from "axios";
+
 import { getPost } from "../../apis/posts";
-
 import { useQuery } from "react-query";
-
 import { useRecoilState, useRecoilValue } from "recoil";
 import { searchFilterState } from "../../atoms/search";
 import { userState } from "../../atoms/auth";
-
-import { updateUser } from "../../apis/user";
 
 const SquarePostList = () => {
 	const [posts, setPosts] = useState([]);
