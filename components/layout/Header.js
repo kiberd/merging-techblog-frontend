@@ -276,7 +276,7 @@ const Header = () => {
 								>
 									Tranding
 								</a>
-								{user.isLogin ? (
+								{session ? (
 									<a
 										href="/bookmark"
 										class={`text-gray-500 dark:text-gray-300 px-3 py-2 text-sm font-medium ${router.asPath === "/bookmark" ? "border-b-2 border-gray-400" : null}`}

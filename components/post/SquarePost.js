@@ -8,6 +8,7 @@ import { BookmarkIcon as OutlineBookmarkIcon } from "@heroicons/react/outline";
 import { BookmarkIcon as SolidBookmarkIcon } from '@heroicons/react/solid';
 
 import { getUser, updateUser } from "../../apis/user";
+import { useSession, signOut } from "next-auth/react";
 
 const logoUrl = (companyId) => {
 
@@ -29,6 +30,8 @@ const SquarePost = ({ data }) => {
     const [tagList, setTagList] = useState();
     const [openTagList, setOpenTagList] = useState(false);
     const [user, setUser] = useRecoilState(userState);
+
+    const { data: session, status } = useSession();
 
     
     useEffect(() => {
@@ -95,7 +98,7 @@ const SquarePost = ({ data }) => {
                             <div className="flex justify-between" >
                                 <img class="object-cover rounded-full block w-9 h-9 mr-2" src={logoUrl(data.companyId)} />
 
-                                {user.isLogin ?
+                                {session ?
                                     user.info.bookmarkList.some((id) => id === data.postId) ? (
                                         <SolidBookmarkIcon
                                             onClick={handleBookmark} className="w-5 h-5"
