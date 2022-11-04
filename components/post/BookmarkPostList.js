@@ -22,17 +22,13 @@ const BookmarkPostList = () => {
         }
     }, [user]);
 
-    useEffect(() => {
-        refetch();
-    }, [postList]);
-
     const {
         data: bookmarkData,
-        refetch,
+        // refetch,
         isLoading,
         isFetching
     } = useQuery(["getBookmarkPost", postList], () => getBookmarkPost(postList), {
-        // enabled: false,
+        enabled: !!postList,
     });
 
 
@@ -98,7 +94,7 @@ const BookmarkPostList = () => {
                             : posts ?
                                 posts.map((filterdData, index) => (
                                     <BookmarkPost key={index} data={filterdData} />
-                                )) : null
+                            )) : null
                     }
                 </div>
             </div>
